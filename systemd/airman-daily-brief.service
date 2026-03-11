@@ -1,0 +1,10 @@
+[Unit]
+Description=AIRMAN'S Daily Brief email sender
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=/home/centos/Desktop/airman-daily-brief
+EnvironmentFile=/home/centos/Desktop/airman-daily-brief/.env
+ExecStart=/home/centos/Desktop/airman-daily-brief/.venv/bin/python -m brief_service.main

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>AIRMAN'S Daily Brief</title>
+    <style>
+      body {
+        font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+        background-color: #f5f6fa;
+        margin: 0;
+        padding: 0;
+      }
+      .wrapper {
+        max-width: 640px;
+        margin: 0 auto;
+        padding: 24px;
+      }
+      .card {
+        background: #ffffff;
+        border-radius: 12px;
+        padding: 24px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+      }
+      h1 {
+        font-size: 22px;
+        margin: 0 0 8px;
+      }
+      h2 {
+        font-size: 18px;
+        margin: 24px 0 12px;
+      }
+      p {
+        line-height: 1.5;
+        margin: 8px 0;
+      }
+      .news-item {
+        margin-bottom: 16px;
+      }
+      .news-item a {
+        color: #0050b3;
+        text-decoration: none;
+        font-weight: 600;
+      }
+      .news-item a:hover {
+        text-decoration: underline;
+      }
+      .weather {
+        background: #f0f7ff;
+        border-radius: 10px;
+        padding: 16px;
+      }
+      .footer {
+        font-size: 12px;
+        color: #8c8c8c;
+        margin-top: 24px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="card">
+        <h1>AIRMAN'S Daily Brief</h1>
+        <p style="color: #888;">{{ date.strftime('%A, %B %d, %Y') }}</p>
+
+        <h2>World Events</h2>
+        {% if news_items %}
+          {% for item in news_items %}
+            <div class="news-item">
+              <a href="{{ item.link }}" target="_blank" rel="noopener">{{ item.title }}</a>
+              {% if item.summary %}
+                <p>{{ item.summary }}</p>
+              {% endif %}
+            </div>
+          {% endfor %}
+        {% else %}
+          <p>No Reuters stories available today.</p>
+        {% endif %}
+
+        <h2>Shanghai Weather</h2>
+        <div class="weather">
+          <p><strong>Current:</strong> {{ '%.1f'|format(weather.temperature_c) }}°C · {{ weather.weather_description }}</p>
+          <p><strong>High / Low:</strong> {{ '%.1f'|format(weather.high_c) }}°C / {{ '%.1f'|format(weather.low_c) }}°C</p>
+          {% if weather.precip_chance is not none %}
+            <p><strong>Precipitation chance:</strong> {{ weather.precip_chance }}%</p>
+          {% endif %}
+        </div>
+
+        <div class="footer">
+          Sent at 07:00 Asia/Shanghai · Sources: NYTimes Most Popular & Open-Meteo
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
